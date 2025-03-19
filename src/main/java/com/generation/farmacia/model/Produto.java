@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 
@@ -24,6 +25,7 @@ import jakarta.validation.constraints.Size;
 	@Size(min=2, max =100, message = " O nome precisa ter mais de 2 letras")
 	private String nome;
 
+	@Positive
 	private Double preco;
 	
 	@NotBlank(message= "O atributo descrição é obrigatório")

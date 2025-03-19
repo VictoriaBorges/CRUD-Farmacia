@@ -1,5 +1,6 @@
 package com.generation.farmacia.controller;
 
+
 import java.util.List;
 import java.util.Optional;
 
@@ -57,25 +58,30 @@ import jakarta.validation.Valid;
 			public ResponseEntity<Produto> post(@Valid @RequestBody Produto produto){
 			    if (produto.getId() != null && produtoRepository.existsById(produto.getId()))
 			        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Produto Já Existe!", null);
-
+			
+			   
+			    if (!categoriaRepository.existsById(produto.getCategoria().getId())) { 
+			    	  throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Categoria não existe!", null);
+		        }
+		        
 			    return ResponseEntity.status(HttpStatus.CREATED)
-			            .body(produtoRepository.save(produto));
-			    
+			         .body(produtoRepository.save(produto));
 			}
+			
 			@PutMapping
 			public ResponseEntity<Produto> put(@Valid @RequestBody Produto produto) {
-			    if (produtoRepository.existsById(produto.getId())) { // Verifica se o produto existe
+			    if (produtoRepository.existsById(produto.getId())) { 
 			        
 			      
-					if (categoriaRepository.existsById(produto.getCategoria().getId())) { // Verifica se a categoria existe
+					if (categoriaRepository.existsById(produto.getCategoria().getId())) { 
 			            return ResponseEntity.status(HttpStatus.OK)
-			                    .body(produtoRepository.save(produto)); // Atualiza o produto
+			                    .body(produtoRepository.save(produto)); 
 			        }
 			        
 			        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Categoria não existe!", null);
 			    }
 
-			    return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // Retorna 404 se o produto não existir
+			    return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); 
 			}
 
 			
@@ -89,9 +95,10 @@ import jakarta.validation.Valid;
 				
 				produtoRepository.deleteById(id);				
 				
-			}
 			
-		}
+			}
+	}
+	
 		
 		
 	
